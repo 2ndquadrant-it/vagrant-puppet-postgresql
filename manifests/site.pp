@@ -18,15 +18,16 @@ node database {
     content => "LANG=en_US.UTF-8\n",
   } ->
 
-  # Install PostgreSQL 9.3 server from the PGDG repository
+  # Install PostgreSQL 9.4 server from the PGDG repository
   class { 'postgresql::globals':
-    version             => '9.3',
+    version             => '9.4',
     manage_package_repo => true,
     encoding            => 'UTF8',
     locale              => 'en_US.utf8',
+    # TODO: remove the next line after PostgreSQL 9.4 release
+    postgis_version     => '2.1',
   } ->
   class { 'postgresql::server':
-    ensure                     => 'present',
     listen_addresses           => '*',
     ip_mask_deny_postgres_user => '0.0.0.0/32',
     ip_mask_allow_all_users    => '0.0.0.0/0',
